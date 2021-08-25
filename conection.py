@@ -63,6 +63,8 @@ def view_duplicate(name):
 def view():
     db= db_connect()
 
+    result=None
+
     with db.cursor() as cursor:        
 
         sql= "SELECT * FROM task_archivament"
@@ -78,3 +80,49 @@ def view():
             db.close()
     
     return result
+
+def search(name):
+    db= db_connect()
+
+    result= None
+
+    with db.cursor() as cursor:
+
+        sql= "SELECT task_name,task_id FROM task_archivament WHERE task_name=%s"
+
+        try:
+            cursor.execute(sql,(name,))
+            result=list(cursor.fetchall())
+        except:
+            db.rollback()
+            print("Database Rollback")
+        finally:
+            cursor.close()
+            db.close()
+    
+    return result
+
+def delete(name):
+    db= db_connect()
+
+    with db.cursor() as cursor:
+        
+        #Nunca olvides el WHERE en el DELETE FROM 
+        sql="DELETE FROM task_archivament WHERE task_name=%s"
+
+        
+        try:
+            #cursor.execute("SET SQL_SAFE_UPDATES=0")
+            cursor.execute(sql,(name,))
+            #cursor.execute("SET SQL_SAFE_UPDATES=1")
+            #Commit your changes in the database
+            db.commit()
+            print("Remove \"%s\" task successfully!")        
+        except:
+            db.rollback()
+            print("Database Rollback")
+        finally:
+            cursor.close()
+            db.close()
+        
+        

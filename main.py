@@ -5,6 +5,10 @@ from conection import *
 class Task:
     def __init__(self,task_name,task_duration):
         self.task_name= task_name
+        self.task_duration= task_duration
+    
+    def add_stack(task):
+        pass
 
         
 def run():
@@ -12,7 +16,7 @@ def run():
 
     print("list_arguments",list_arguments)
 
-    if len(list_arguments)!=2:
+    if len(list_arguments) >3:
         print("Ingrese un comando valido, Por Favor.")
     else:
         if list_arguments[1]=="-create":
@@ -43,17 +47,20 @@ def run():
             list_task=view()
             for element in list_task:
                 print(element)
-            pass
+            
+        
+        if list_arguments[1]=="-search":
+            task_search= search(list_arguments[2])
+
+            print("task_search: ",task_search)
+        
+        if list_arguments[1]=="-delete":
+            delete(list_arguments[2])
 
     
 
     pass
 if __name__ == '__main__':
-    """
-    add_task("cocinar",50)
-    add_task("estudiar","30")
-    add_task("aburrirme","600")
-    """
     run()
     
 
