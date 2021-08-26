@@ -38,27 +38,25 @@ def add_task(name,duration):
         
         
 def view_duplicate(name):
-
-    db= db_connect()
+    db=db_connect()
 
     with db.cursor() as cursor:
+        
+        sql="SELECT task_name FROM task_archivament WHERE task_name=%s"
 
-        sql= "SELECT task_id FROM task_archivament WHERE task_name=%s"
-
+        result=None
         try:
-            #Execute the SQL command
             cursor.execute(sql,(name,))
-            result= cursor.fetchone()
-
+            result=list(cursor.fetchone())
         except:
             db.rollback()
-            print("Database Rollback!")
+            #print("Database Rollback!")
         finally:
-            if db:
-                cursor.close()
-                db.close()
+            cursor.close()
+            db.close()
+    return False if (result==None) else True
 
-    return len(result) if result!=None else 0
+
 
 def view():
     db= db_connect()
@@ -117,7 +115,7 @@ def delete(name):
             #cursor.execute("SET SQL_SAFE_UPDATES=1")
             #Commit your changes in the database
             db.commit()
-            print("Remove \"%s\" task successfully!")        
+            print("Remove \"{}\" task successfully!".format(name))        
         except:
             db.rollback()
             print("Database Rollback")
