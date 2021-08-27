@@ -86,11 +86,11 @@ def search(name):
 
     with db.cursor() as cursor:
 
-        sql= "SELECT task_name,task_id FROM task_archivament WHERE task_name=%s"
+        sql= "SELECT task_name,task_duration FROM task_archivament WHERE task_name=%s"
 
         try:
             cursor.execute(sql,(name,))
-            result=list(cursor.fetchall())
+            result=list(cursor.fetchone())
         except:
             db.rollback()
             print("Database Rollback")
